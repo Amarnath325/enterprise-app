@@ -38,4 +38,10 @@ class Admin extends Authenticatable
     {
         return $this->hasMany(Business::class, 'b_admin_id', 'a_id');
     }
+
+    // Admin model me
+    public function getAuthPassword()
+    {
+        return $this->a_password;
+    }
 }
