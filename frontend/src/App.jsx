@@ -1,34 +1,45 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import './App.css'
 
+// import HomePage from './pages/HomePage' // not used now
+import LoginPage from './pages/LoginPage'
+import SignupPage from './pages/SignupPage'
+import BusinessManagement from './pages/admin/business/BusinessManagement'
+import BusinessSetup from './pages/admin/business/BusinessSetup'
+import HomePage from './pages/HomePage'
+
 function App() {
-  const [count, setCount] = useState(0)
+  const [token, setToken] = useState(localStorage.getItem('token'))
+
+  const handleLogin = (newToken) => {
+    localStorage.setItem('token', newToken)
+    setToken(newToken)
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/businesses/setup" element={<BusinessSetup />} />
+        <Route
+          path="/login"
+          element={<LoginPage onLogin={handleLogin} />}
+        />
+        <Route
+          path="/signup"
+          element={<SignupPage onSignUp={handleLogin} />}
+        />
+        <Route
+          path="/businesses"
+          element={token ? <BusinessManagement /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/businesses/setup"
+          element={token ? <BusinessSetup /> : <Navigate to="/login" />}
+        />
+      </Routes>
+    </Router>
   )
 }
 
