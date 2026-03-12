@@ -7,7 +7,7 @@ import PublicLayout from '../Admin/components/layout/PublicLayout';
 const HomePage = () => {
   return (
     <PublicLayout>
-      <div className="home-page">
+      <div className="home-page bg-black">
         <h1>Welcome to BusinessPro</h1>
         <p>Set up your account and start managing your business.</p>
         <div className="home-actions">
